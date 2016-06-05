@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="bjtu.edu.train.dao.TrainMapper" >
+  <resultMap id="BaseResultMap" type="bjtu.edu.train.model.Train" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="start_Station" property="startStation" jdbcType="VARCHAR" />
+    <result column="end_Station" property="endStation" jdbcType="VARCHAR" />
+    <result column="start_Time" property="startTime" jdbcType="VARCHAR" />
+    <result column="actual_Length" property="actualLength" jdbcType="VARCHAR" />
+    <result column="end_Time" property="endTime" jdbcType="VARCHAR" />
+    <result column="runing_Time" property="runingTime" jdbcType="VARCHAR" />
+    <result column="load_Factor" property="loadFactor" jdbcType="VARCHAR" />
+    <result column="file_Name" property="fileName" jdbcType="VARCHAR" />
+    <result column="max_Acceleration" property="maxAcceleration" jdbcType="DOUBLE" />
+    <result column="minus_Acceleration" property="minusAcceleration" jdbcType="DOUBLE" />
+    <result column="maxAcceleration_Rate" property="maxaccelerationRate" jdbcType="DOUBLE" />
+    <result column="minusAcceleration_Rate" property="minusaccelerationRate" jdbcType="DOUBLE" />
+    <result column="station_Precision" property="stationPrecision" jdbcType="DOUBLE" />
+    <result column="EBI_Num" property="ebiNum" jdbcType="INTEGER" />
+    <result column="info" property="info" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, start_Station, end_Station, start_Time, actual_Length, end_Time, runing_Time, 
+    load_Factor, file_Name, max_Acceleration, minus_Acceleration, maxAcceleration_Rate, 
+    minusAcceleration_Rate, station_Precision, EBI_Num, info
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="bjtu.edu.train.model.TrainExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from train
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from train
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from train
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="bjtu.edu.train.model.TrainExample" >
+    delete from train
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="bjtu.edu.train.model.Train" >
+    insert into train (id, start_Station, end_Station, 
+      start_Time, actual_Length, end_Time, 
+      runing_Time, load_Factor, file_Name, 
+      max_Acceleration, minus_Acceleration, maxAcceleration_Rate, 
+      minusAcceleration_Rate, station_Precision, 
+      EBI_Num, info)
+    values (#{id,jdbcType=INTEGER}, #{startStation,jdbcType=VARCHAR}, #{endStation,jdbcType=VARCHAR}, 
+      #{startTime,jdbcType=VARCHAR}, #{actualLength,jdbcType=VARCHAR}, #{endTime,jdbcType=VARCHAR}, 
+      #{runingTime,jdbcType=VARCHAR}, #{loadFactor,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, 
+      #{maxAcceleration,jdbcType=DOUBLE}, #{minusAcceleration,jdbcType=DOUBLE}, #{maxaccelerationRate,jdbcType=DOUBLE}, 
+      #{minusaccelerationRate,jdbcType=DOUBLE}, #{stationPrecision,jdbcType=DOUBLE}, 
+      #{ebiNum,jdbcType=INTEGER}, #{info,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="bjtu.edu.train.model.Train" >
+    insert into train
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="startStation != null" >
+        start_Station,
+      </if>
+      <if test="endStation != null" >
+        end_Station,
+      </if>
+      <if test="startTime != null" >
+        start_Time,
+      </if>
+      <if test="actualLength != null" >
+        actual_Length,
+      </if>
+      <if test="endTime != null" >
+        end_Time,
+      </if>
+      <if test="runingTime != null" >
+        runing_Time,
+      </if>
+      <if test="loadFactor != null" >
+        load_Factor,
+      </if>
+      <if test="fileName != null" >
+        file_Name,
+      </if>
+      <if test="maxAcceleration != null" >
+        max_Acceleration,
+      </if>
+      <if test="minusAcceleration != null" >
+        minus_Acceleration,
+      </if>
+      <if test="maxaccelerationRate != null" >
+        maxAcceleration_Rate,
+      </if>
+      <if test="minusaccelerationRate != null" >
+        minusAcceleration_Rate,
+      </if>
+      <if test="stationPrecision != null" >
+        station_Precision,
+      </if>
+      <if test="ebiNum != null" >
+        EBI_Num,
+      </if>
+      <if test="info != null" >
+        info,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="startStation != null" >
+        #{startStation,jdbcType=VARCHAR},
+      </if>
+      <if test="endStation != null" >
+        #{endStation,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=VARCHAR},
+      </if>
+      <if test="actualLength != null" >
+        #{actualLength,jdbcType=VARCHAR},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=VARCHAR},
+      </if>
+      <if test="runingTime != null" >
+        #{runingTime,jdbcType=VARCHAR},
+      </if>
+      <if test="loadFactor != null" >
+        #{loadFactor,jdbcType=VARCHAR},
+      </if>
+      <if test="fileName != null" >
+        #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="maxAcceleration != null" >
+        #{maxAcceleration,jdbcType=DOUBLE},
+      </if>
+      <if test="minusAcceleration != null" >
+        #{minusAcceleration,jdbcType=DOUBLE},
+      </if>
+      <if test="maxaccelerationRate != null" >
+        #{maxaccelerationRate,jdbcType=DOUBLE},
+      </if>
+      <if test="minusaccelerationRate != null" >
+        #{minusaccelerationRate,jdbcType=DOUBLE},
+      </if>
+      <if test="stationPrecision != null" >
+        #{stationPrecision,jdbcType=DOUBLE},
+      </if>
+      <if test="ebiNum != null" >
+        #{ebiNum,jdbcType=INTEGER},
+      </if>
+      <if test="info != null" >
+        #{info,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="bjtu.edu.train.model.TrainExample" resultType="java.lang.Integer" >
+    select count(*) from train
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update train
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.startStation != null" >
+        start_Station = #{record.startStation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.endStation != null" >
+        end_Station = #{record.endStation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startTime != null" >
+        start_Time = #{record.startTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.actualLength != null" >
+        actual_Length = #{record.actualLength,jdbcType=VARCHAR},
+      </if>
+      <if test="record.endTime != null" >
+        end_Time = #{record.endTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.runingTime != null" >
+        runing_Time = #{record.runingTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.loadFactor != null" >
+        load_Factor = #{record.loadFactor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fileName != null" >
+        file_Name = #{record.fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.maxAcceleration != null" >
+        max_Acceleration = #{record.maxAcceleration,jdbcType=DOUBLE},
+      </if>
+      <if test="record.minusAcceleration != null" >
+        minus_Acceleration = #{record.minusAcceleration,jdbcType=DOUBLE},
+      </if>
+      <if test="record.maxaccelerationRate != null" >
+        maxAcceleration_Rate = #{record.maxaccelerationRate,jdbcType=DOUBLE},
+      </if>
+      <if test="record.minusaccelerationRate != null" >
+        minusAcceleration_Rate = #{record.minusaccelerationRate,jdbcType=DOUBLE},
+      </if>
+      <if test="record.stationPrecision != null" >
+        station_Precision = #{record.stationPrecision,jdbcType=DOUBLE},
+      </if>
+      <if test="record.ebiNum != null" >
+        EBI_Num = #{record.ebiNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.info != null" >
+        info = #{record.info,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update train
+    set id = #{record.id,jdbcType=INTEGER},
+      start_Station = #{record.startStation,jdbcType=VARCHAR},
+      end_Station = #{record.endStation,jdbcType=VARCHAR},
+      start_Time = #{record.startTime,jdbcType=VARCHAR},
+      actual_Length = #{record.actualLength,jdbcType=VARCHAR},
+      end_Time = #{record.endTime,jdbcType=VARCHAR},
+      runing_Time = #{record.runingTime,jdbcType=VARCHAR},
+      load_Factor = #{record.loadFactor,jdbcType=VARCHAR},
+      file_Name = #{record.fileName,jdbcType=VARCHAR},
+      max_Acceleration = #{record.maxAcceleration,jdbcType=DOUBLE},
+      minus_Acceleration = #{record.minusAcceleration,jdbcType=DOUBLE},
+      maxAcceleration_Rate = #{record.maxaccelerationRate,jdbcType=DOUBLE},
+      minusAcceleration_Rate = #{record.minusaccelerationRate,jdbcType=DOUBLE},
+      station_Precision = #{record.stationPrecision,jdbcType=DOUBLE},
+      EBI_Num = #{record.ebiNum,jdbcType=INTEGER},
+      info = #{record.info,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="bjtu.edu.train.model.Train" >
+    update train
+    <set >
+      <if test="startStation != null" >
+        start_Station = #{startStation,jdbcType=VARCHAR},
+      </if>
+      <if test="endStation != null" >
+        end_Station = #{endStation,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        start_Time = #{startTime,jdbcType=VARCHAR},
+      </if>
+      <if test="actualLength != null" >
+        actual_Length = #{actualLength,jdbcType=VARCHAR},
+      </if>
+      <if test="endTime != null" >
+        end_Time = #{endTime,jdbcType=VARCHAR},
+      </if>
+      <if test="runingTime != null" >
+        runing_Time = #{runingTime,jdbcType=VARCHAR},
+      </if>
+      <if test="loadFactor != null" >
+        load_Factor = #{loadFactor,jdbcType=VARCHAR},
+      </if>
+      <if test="fileName != null" >
+        file_Name = #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="maxAcceleration != null" >
+        max_Acceleration = #{maxAcceleration,jdbcType=DOUBLE},
+      </if>
+      <if test="minusAcceleration != null" >
+        minus_Acceleration = #{minusAcceleration,jdbcType=DOUBLE},
+      </if>
+      <if test="maxaccelerationRate != null" >
+        maxAcceleration_Rate = #{maxaccelerationRate,jdbcType=DOUBLE},
+      </if>
+      <if test="minusaccelerationRate != null" >
+        minusAcceleration_Rate = #{minusaccelerationRate,jdbcType=DOUBLE},
+      </if>
+      <if test="stationPrecision != null" >
+        station_Precision = #{stationPrecision,jdbcType=DOUBLE},
+      </if>
+      <if test="ebiNum != null" >
+        EBI_Num = #{ebiNum,jdbcType=INTEGER},
+      </if>
+      <if test="info != null" >
+        info = #{info,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="bjtu.edu.train.model.Train" >
+    update train
+    set start_Station = #{startStation,jdbcType=VARCHAR},
+      end_Station = #{endStation,jdbcType=VARCHAR},
+      start_Time = #{startTime,jdbcType=VARCHAR},
+      actual_Length = #{actualLength,jdbcType=VARCHAR},
+      end_Time = #{endTime,jdbcType=VARCHAR},
+      runing_Time = #{runingTime,jdbcType=VARCHAR},
+      load_Factor = #{loadFactor,jdbcType=VARCHAR},
+      file_Name = #{fileName,jdbcType=VARCHAR},
+      max_Acceleration = #{maxAcceleration,jdbcType=DOUBLE},
+      minus_Acceleration = #{minusAcceleration,jdbcType=DOUBLE},
+      maxAcceleration_Rate = #{maxaccelerationRate,jdbcType=DOUBLE},
+      minusAcceleration_Rate = #{minusaccelerationRate,jdbcType=DOUBLE},
+      station_Precision = #{stationPrecision,jdbcType=DOUBLE},
+      EBI_Num = #{ebiNum,jdbcType=INTEGER},
+      info = #{info,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
