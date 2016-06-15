@@ -39,7 +39,6 @@ public class TrainController {
 	 */
 	@RequestMapping(value = "/upload", method = RequestMethod.GET)
 	public String uploadView(HttpServletRequest request, HttpServletResponse response) {
-		logger.debug("upload");
 		return path + "train-upload";
 	}
 

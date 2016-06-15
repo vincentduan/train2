@@ -1,7 +1,7 @@
 package bjtu.edu.train.vo;
 
 import java.util.List;
-
+//以时间为依据
 public class TrainDataVo {
 	private String name;
 	private List<Double> vodata;//speed

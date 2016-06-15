@@ -5,6 +5,8 @@ import java.text.DecimalFormat;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -21,7 +23,9 @@ import bjtu.edu.train.model.EnergySectionExample;
 import bjtu.edu.train.model.Train;
 import bjtu.edu.train.model.TrainData;
 import bjtu.edu.train.model.TrainDataExample;
+import bjtu.edu.train.model.TrainExample;
 import bjtu.edu.train.ser.TrainService;
+import bjtu.edu.train.vo.EnergySectionVo;
 
 @Service
 public class TrainServiceImpl implements TrainService {
@@ -34,12 +38,12 @@ public class TrainServiceImpl implements TrainService {
 	private TrainMapper trainMapper;
 
 	@Override
-	public boolean saveDatas(CommonsMultipartFile[] files) {
+	public boolean saveDatas(CommonsMultipartFile[] files,HttpSession httpSession) {
 		energySectionMapper.deleteAll();
 		trainDataMapper.deleteAll();
+		List<String> file_Names = new LinkedList<>();
 		for (int i = 0; i < files.length; i++) {
 			List<TrainData> trainDataList = new LinkedList<>();
-			List<Train> trainList = new LinkedList<>();
 			List<EnergySection> energySectionList = new LinkedList<>();
 			if (!files[i].isEmpty()) {
 				try{
@@ -47,6 +51,7 @@ public class TrainServiceImpl implements TrainService {
 					XSSFWorkbook wb = new XSSFWorkbook(in);
 					XSSFSheet sheet = wb.getSheetAt(1);
 					String file_name = files[i].getFileItem().getName();
+					file_Names.add(file_name);
 					int lastRowNum = sheet.getLastRowNum();
 					//保存站信息
 					XSSFRow row_temp = sheet.getRow(2);
@@ -91,12 +96,17 @@ public class TrainServiceImpl implements TrainService {
 						}
 					}
 					this.saveTrainDatas(trainDataList);
+					//保存文件信息
+					Train train = new Train();
+					train.setFileName(file_name);
+					this.saveTrain(train);
 				}catch(Exception e){
 					e.printStackTrace();
 				}
 			}
 			
 		}
+		httpSession.setAttribute("file_Names", file_Names);
 		return true;
 	}
 	public void saveTrainDatas(List<TrainData> trainDataList){
@@ -123,6 +133,11 @@ public class TrainServiceImpl implements TrainService {
 //		l.add(data);
 		energySectionMapper.addEnergyRecordBatch(energySections);
 	}
+	
+	public void saveTrain(Train train){
+		trainMapper.insertSelective(train);
+	}
+	
 	/**
 	 * 获得所有站间
 	 */
@@ -147,10 +162,29 @@ public class TrainServiceImpl implements TrainService {
 		List<TrainData> list = trainDataMapper.selectByExample(trainDataExample);
 		return list;
 	}
+	/**
+	 * 根据id获得站名
+	 */
 	@Override
 	public EnergySection getEnergySectionById(int id) {
 		EnergySection energySection = energySectionMapper.selectByPrimaryKey(id);
 		return energySection;
+	}
+	@Override
+	public List<EnergySection> findSectionByName(String fileName) {
+		EnergySectionExample energySectionExample = new EnergySectionExample();
+		EnergySectionExample.Criteria criteria = energySectionExample.createCriteria();
+		criteria.andInfoEqualTo(fileName);
+		List<EnergySection> list = energySectionMapper.selectByExample(energySectionExample);
+		return list;
+	}
+	@Override
+	public Train findTrainByFileName(String fileName) {
+		TrainExample trainExample = new TrainExample();
+		TrainExample.Criteria criteria = trainExample.createCriteria();
+		criteria.andFileNameEqualTo(fileName);
+		List<Train> trains = trainMapper.selectByExample(trainExample);
+		return trains.get(0);
 	}
 
 }

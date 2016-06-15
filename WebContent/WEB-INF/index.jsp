@@ -17,8 +17,8 @@
 		<div class="row">
 			<div class="col-md-2">
 				<ul class="nav nav-pills nav-stacked">
-					<li class="active"><a href="<%=basePath%>/index/upload">列车能耗评估系统</a></li>
-					<li><a href="#">仿真计算数据</a></li>
+					<li class="active"><a href="<%=basePath%>index/upload">列车能耗评估系统</a></li>
+					<li><a href="<%=basePath%>index/contrast">列车对比</a></li>
 					<li><a href="#">****系统</a></li>
 				</ul>
 			</div>

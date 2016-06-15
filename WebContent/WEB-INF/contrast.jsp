@@ -15,11 +15,16 @@ var data2="";
 $(function(){
 	$.ajax({
 		type:"POST",
-		url:"<%=basePath%>index/getEnergySections",
+		url:"<%=basePath%>index/contrastEnergySections",
 		dataType: "json",
 		success: function(data){
 			$.each(data, function (n, value) {
-				$("#energysections").append("<option value="+value.id+">"+value.start+"---"+n+"----"+value.end+"["+value.info+"]"+"</option>");
+				var sectionid = value.id;
+				$("#selectContainer").append("<select class='form-control' style='width: 500px' id="+sectionid+"><option>请选择</option>");
+				$.each(value.energySections, function (m, value2) {
+					$("#"+sectionid).append("<option value="+value2.id+">"+value2.start+"---"+m+"----"+value2.end+"["+value2.info+"]"+"</option>");
+				});
+				$("#selectContainer").append("</select>");	
 	          }); 
 		}
 		});
@@ -194,11 +199,7 @@ $("#energysections").change(
 			</div>
 			<div class="col-md-10">
 				<h2>站间信息</h2>
-				<div id="selectContainer">
-					
-				</div>
-				<select id="energysections" class="form-control"
-					style="width: 500px"><option>请选择</option></select>
+				<div id="selectContainer"></div>
 				<h3 id="section-1">以时间为依据</h3>
 				<div id="chart" style="min-width: 700px; height: 400px"></div>
 				<hr>

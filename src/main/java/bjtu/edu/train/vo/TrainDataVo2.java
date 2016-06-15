@@ -1,7 +1,7 @@
 package bjtu.edu.train.vo;
 
 import java.util.List;
-
+//ÒÔ¾àÀëÎªÒÀ¾İ
 public class TrainDataVo2 {
 	private String name;
 	private List<List<Double>> vodata2;//speed
