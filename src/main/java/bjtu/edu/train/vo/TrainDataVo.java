@@ -4,9 +4,17 @@ import java.util.List;
 //以时间为依据
 public class TrainDataVo {
 	private String name;
+	private String id;
 	private List<Double> vodata;//speed
 	private List<Double> slope;//slope
 	private String pointInterval;
+	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public String getName() {
 		return name;
 	}

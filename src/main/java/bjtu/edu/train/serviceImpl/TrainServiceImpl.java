@@ -41,6 +41,7 @@ public class TrainServiceImpl implements TrainService {
 	public boolean saveDatas(CommonsMultipartFile[] files,HttpSession httpSession) {
 		energySectionMapper.deleteAll();
 		trainDataMapper.deleteAll();
+		trainMapper.deleteAll();
 		List<String> file_Names = new LinkedList<>();
 		for (int i = 0; i < files.length; i++) {
 			List<TrainData> trainDataList = new LinkedList<>();
@@ -74,6 +75,9 @@ public class TrainServiceImpl implements TrainService {
 						String endStation = row.getCell(28).getStringCellValue();
 						//保存数据
 						double speed = row.getCell(9).getNumericCellValue();
+						if(speed==0.0){
+							continue;
+						}
 						double slope = row.getCell(18).getNumericCellValue();
 						row.getCell(11).setCellType(Cell.CELL_TYPE_NUMERIC); 
 						double distance = row.getCell(11).getNumericCellValue();
@@ -104,36 +108,19 @@ public class TrainServiceImpl implements TrainService {
 					e.printStackTrace();
 				}
 			}
-			
 		}
 		httpSession.setAttribute("file_Names", file_Names);
 		return true;
 	}
+	//保存数据
 	public void saveTrainDatas(List<TrainData> trainDataList){
-//		List<TrainData> l = new LinkedList<>();
-//		TrainData data = new TrainData();
-//		data.setId(0);
-//		data.setFileName("ssss");
-//		data.setStartStation("sdfsdf");
-//		data.setEndStation("23fdsdf");
-//		data.setTraction(12.9);
-//		data.setSlope(13.9);
-//		data.setSpeed(14.9);
-//		data.setPower(15.9);
-//		l.add(data);
 		trainDataMapper.addTrainRecordBatch(trainDataList);
 	}
+	//保存站间信息
 	public void saveEnergySection(List<EnergySection> energySections){
-//		List<EnergySection> l = new LinkedList<>();
-//		EnergySection data = new EnergySection();
-//		data.setStart("sdfsd");
-//		data.setEnd("ffffff");
-//		data.setInfo("fdfffffssss");
-//		data.setEnerge(0.9);
-//		l.add(data);
 		energySectionMapper.addEnergyRecordBatch(energySections);
 	}
-	
+	//保存列车信息
 	public void saveTrain(Train train){
 		trainMapper.insertSelective(train);
 	}
@@ -148,6 +135,7 @@ public class TrainServiceImpl implements TrainService {
 		List<EnergySection> list = energySectionMapper.selectByExample(energySectionExample);
 		return list;
 	}
+	
 	/**
 	 * 根据文件名，始发站，终点站得到区间的数据
 	 */
@@ -162,6 +150,7 @@ public class TrainServiceImpl implements TrainService {
 		List<TrainData> list = trainDataMapper.selectByExample(trainDataExample);
 		return list;
 	}
+	
 	/**
 	 * 根据id获得站名
 	 */
@@ -170,6 +159,8 @@ public class TrainServiceImpl implements TrainService {
 		EnergySection energySection = energySectionMapper.selectByPrimaryKey(id);
 		return energySection;
 	}
+	
+	//根据文件名得到所有站
 	@Override
 	public List<EnergySection> findSectionByName(String fileName) {
 		EnergySectionExample energySectionExample = new EnergySectionExample();
@@ -178,6 +169,7 @@ public class TrainServiceImpl implements TrainService {
 		List<EnergySection> list = energySectionMapper.selectByExample(energySectionExample);
 		return list;
 	}
+	//根据文件名得到文件id
 	@Override
 	public Train findTrainByFileName(String fileName) {
 		TrainExample trainExample = new TrainExample();

@@ -57,7 +57,7 @@ public class IndexController {
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public String upload(@RequestParam("file") CommonsMultipartFile[] file,HttpSession httpSession) {
 		trainService.saveDatas(file,httpSession);
-		return "train-result";
+		return "contrast";
 	}
 	//列车对比
 	@RequestMapping(value = "/contrast")
@@ -101,6 +101,7 @@ public class IndexController {
 		List<TrainData> trainDatas = trainService
 				.getTrainDataByFileNameAndStartAndEnd(energySection.getInfo(),
 						energySection.getStart(), energySection.getEnd());
+		Train train = trainService.findTrainByFileName(energySection.getInfo());
 		List<Double> Data2 = new LinkedList<>();//speed
 		List<Double> Data3 = new LinkedList<>();//slope
 		for (int i = 0; i < trainDatas.size(); i++) {
@@ -110,7 +111,8 @@ public class IndexController {
 		}
 		List<TrainDataVo> l = new LinkedList<>();
 		TrainDataVo trainDataVo = new TrainDataVo();
-		trainDataVo.setName("speed");
+		trainDataVo.setId(train.getId()+"");
+		trainDataVo.setName(energySection.getInfo());
 		trainDataVo.setVodata(Data2);
 		trainDataVo.setSlope(Data3);
 		trainDataVo.setPointInterval("200");
@@ -140,7 +142,7 @@ public class IndexController {
 		}
 		List<TrainDataVo2> l = new LinkedList<>();
 		TrainDataVo2 trainDataVo2 = new TrainDataVo2();
-		trainDataVo2.setName("speed");
+		trainDataVo2.setName(energySection.getInfo());
 		trainDataVo2.setVodata2(vodata2);
 		trainDataVo2.setSlope2(slope2);
 		l.add(trainDataVo2);

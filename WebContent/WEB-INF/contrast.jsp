@@ -10,178 +10,153 @@
 <script src="<%=basePath%>resources/highstock/highcharts.js"></script>
 <script src="<%=basePath%>resources/highstock/exporting.js"></script>
 <script type="text/javascript">
-var data1="";
-var data2="";
 $(function(){
-	$.ajax({
-		type:"POST",
-		url:"<%=basePath%>index/contrastEnergySections",
-		dataType: "json",
-		success: function(data){
-			$.each(data, function (n, value) {
-				var sectionid = value.id;
-				$("#selectContainer").append("<select class='form-control' style='width: 500px' id="+sectionid+"><option>请选择</option>");
-				$.each(value.energySections, function (m, value2) {
-					$("#"+sectionid).append("<option value="+value2.id+">"+value2.start+"---"+m+"----"+value2.end+"["+value2.info+"]"+"</option>");
-				});
-				$("#selectContainer").append("</select>");	
-	          }); 
-		}
-		});
+	//highcharts
+	chart = new Highcharts.Chart({
+	      chart: {
+	        renderTo: 'chart'
+	      },
+	      credits : {
+	            enabled:false//不显示highCharts版权信息
+	      },
+	      title:{
+	        text:"时间-速度曲线图"
+	      },
+	        yAxis: [
+	        {
+	            title:{
+	                text :'Speed (km/h)'
+	            },
+	            lineWidth : 1
+	            
+	        },
+	        {
+	            title:{
+	                   text :'slope(‰)'
+	               },
+	            lineWidth : 1,
+	            opposite:true
+	        },
+	        ],
+	      xAxis: {
+	        type: 'datetime',
+	        dateTimeLabelFormats: {
+	            day: '%H:%M:%S:%L'
+	        }
+	      },
+	      tooltip:{
+	            xDateFormat: '%H:%M:%S.%L',
+	            shared: true
+	      },
+/* 	      series:[{
+		        name: 'speed',
+		        data: [],
+	  	        pointInterval: 200
+		    }, {
+		        name: 'slope',
+		        data: [],
+	  	        pointInterval: 200
+		    }] */
+		    series:[]
+	  });
+	    chart2 = new Highcharts.Chart({
+	        chart: {
+	          renderTo: 'chart2'
+	        },
+	        title: {
+	            text: '距离-速度曲线图'
+	        },
+	        credits: {
+	          enabled:false //去水印
+			},
+	          yAxis: [
+	          {
+	              title:{
+	                  text :'Speed (km/h)'
+	              },
+	              lineWidth : 1
+	              
+	          },
+	          {
+	              title:{
+	                     text :'slope(‰)'
+	                 },
+	              lineWidth : 1,
+	              opposite:true
+	          },
+	          ],
+	        xAxis: {
+	        },
+	        tooltip:{
+	              shared: true
+	        },
+	        series:[{
+	  	        name: 'speed',
+	  	        data: []
+	  	    }, {
+	  	        name: 'slope',
+	  	        data: []
+	  	    }]
+	    });
+	  //下拉框
+		$.ajax({
+			type:"POST",
+			url:"<%=basePath%>index/contrastEnergySections",
+			dataType: "json",
+			success: function(data){
+				$.each(data, function (n, value) {
+					var sectionid = value.id;
+					$("#selectContainer").append("<select class='form-control' style='width: 500px' id="+sectionid+"><option>请选择</option>");
+					$.each(value.energySections, function (m, value2) {
+						$("#"+sectionid).append("<option value="+value2.id+">"+value2.start+"---"+m+"----"+value2.end+"["+value2.info+"]"+"</option>");
+					});
+					$("#selectContainer").append("</select>");	
+		          });
+				$(".form-control").change(function(){
+					var selectId = $(this).val();
+					var chart3 = $('#chart').highcharts();
+					$.ajax({
+						type:"POST",
+						url:"<%=basePath%>index/getEnergySection",
+						data : {
+							id : selectId
+						},
+						dataType : "json",
+						success : function(data) {
+							$.each(data, function(n, value) {
+								var name_temp = value.name;
+								var temp2 = value.vodata;
+								var temp3 = value.slope;
+								console.debug(chart3.get(name_temp))
+								if(chart3.get(name_temp+"-speed")!=null){
+									chart3.get(name_temp+"-speed").remove();
+								}
+								if(chart3.get(name_temp+"-slope")!=null){
+									chart3.get(name_temp+"-slope").remove();
+								}
+								chart3.addSeries({
+									id:name_temp+"-speed",
+						            name: name_temp+"-speed",
+						            data: temp2,
+						            pointInterval: 200
+						        });
+								chart3.addSeries({
+									id:name_temp+"-slope",
+						            name: name_temp+"-slope",
+						            data: temp3,
+						            pointInterval: 200
+						        });
+							});
+						}
+					});
+			    });
+			}
+			});
 });
-var chart;
 $(function () {
-$(document).ready(function() {
-    chart = new Highcharts.Chart({
-      chart: {
-        renderTo: 'chart'
-      },
-      credits : {
-            enabled:false//不显示highCharts版权信息
-      },
-      title:{
-        text:"时间-速度曲线图"
-      },
-        yAxis: [
-        {
-            title:{
-                text :'Speed (km/h)'
-            },
-            lineWidth : 1
-            
-        },
-        {
-            title:{
-                   text :'slope(‰)'
-               },
-            lineWidth : 1,
-            opposite:true
-        },
-        ],
-      xAxis: {
-        type: 'datetime',
-        dateTimeLabelFormats: {
-            day: '%H:%M:%S:%L'
-        }
-      },
-      tooltip:{
-            xDateFormat: '%H:%M:%S.%L',
-            shared: true
-      },
-      series:[{
-	        name: 'speed',
-	        data: []
-	    }, {
-	        name: 'slope',
-	        data: []
-	    }]
-  });
-    chart2 = new Highcharts.Chart({
-        chart: {
-          renderTo: 'chart2'
-        },
-        title: {
-            text: '距离-速度曲线图'
-        },
-        credits: {
-          enabled:false //去水印
-		},
-          yAxis: [
-          {
-              title:{
-                  text :'Speed (km/h)'
-              },
-              lineWidth : 1
-              
-          },
-          {
-              title:{
-                     text :'slope(‰)'
-                 },
-              lineWidth : 1,
-              opposite:true
-          },
-          ],
-        xAxis: {
-        },
-        tooltip:{
-              shared: true
-        },
-        series:[{
-  	        name: 'speed',
-  	        data: []
-  	    }, {
-  	        name: 'slope',
-  	        data: []
-  	    }]
-    });
+    
 });
-$("#energysections").change(
-		function(){
-			var selectId = $(this).find("option:selected").val();
-			$.ajax({
-				type:"POST",
-				url:"<%=basePath%>index/getEnergySection",
-				data : {
-					id : selectId
-				},
-				dataType : "json",
-				success : function(data) {
-					$.each(data, function(n, value) {
-						var name_temp = value.name;
-						var temp2 = value.vodata;
-						if (temp2.length > 0) {
-							chart.series[0].name="speed";
-							chart.series[0].setData(temp2);
-							chart.series[0].pointInterval=200;
-							/* chart.addSeries({
-								 name:"speed",
-								 data:temp2,
-								 pointInterval:200
-							}) */
-						}
-						var temp3 = value.slope;
-						if (temp3.length > 0) {
-							chart.series[1].name="slope";
-							chart.series[1].setData(temp3);
-							chart.series[1].pointInterval=200;
-							/* chart.addSeries({
-								 name:"speed",
-								 data:temp2,
-								 pointInterval:200
-							}) */
-						}
-						chart.redraw();
-					});
-				}
-			});
-			$.ajax({
-				type:"POST",
-				url:"<%=basePath%>index/getEnergySection2",
-				data : {
-					id : selectId
-				},
-				dataType : "json",
-				success : function(data) {
-					$.each(data, function(n, value) {
-						var name_temp = value.name;
-						var temp2 = value.vodata2;
-						if (temp2.length > 0) {
-							chart2.series[0].name="speed";
-							chart2.series[0].setData(temp2);
-						}
-						var temp3 = value.slope2;
-						if (temp3.length > 0) {
-							chart2.series[1].name="slope";
-							chart2.series[1].setData(temp3);
-						}
-						chart.redraw();
-					});
-				}
-			});
-		});
 
-	});
 </script>
 </head>
 <body data-spy="scroll" data-target="#myScrollspy">
@@ -203,9 +178,9 @@ $("#energysections").change(
 				<h3 id="section-1">以时间为依据</h3>
 				<div id="chart" style="min-width: 700px; height: 400px"></div>
 				<hr>
-				<h3 id="section-2">以距离为依据</h3>
+				<!-- <h3 id="section-2">以距离为依据</h3>
 				<div id="chart2" style="min-width: 700px; height: 400px"></div>
-				<hr>
+				<hr> -->
 				<h3 id="section-3">统计</h3>
 				<br>
 				<p>
@@ -286,4 +261,8 @@ $("#energysections").change(
 		</div>
 	</div>
 </body>
+<script type="text/javascript">
+
+
+</script>
 </html>

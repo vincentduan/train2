@@ -2,8 +2,11 @@ package bjtu.edu.train.dao;
 
 import bjtu.edu.train.model.Train;
 import bjtu.edu.train.model.TrainExample;
+
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 public interface TrainMapper {
     int countByExample(TrainExample example);
@@ -27,4 +30,7 @@ public interface TrainMapper {
     int updateByPrimaryKeySelective(Train record);
 
     int updateByPrimaryKey(Train record);
+
+	@Select("TRUNCATE TABLE train")
+    void deleteAll();
 }
