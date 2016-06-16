@@ -1,6 +1,7 @@
 package bjtu.edu.train.serviceImpl;
 
 import java.io.FileInputStream;
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.LinkedList;
 import java.util.List;
@@ -46,6 +47,14 @@ public class TrainServiceImpl implements TrainService {
 		for (int i = 0; i < files.length; i++) {
 			List<TrainData> trainDataList = new LinkedList<>();
 			List<EnergySection> energySectionList = new LinkedList<>();
+			int EBInum = 0;
+			double maxAcceleration = 0.0;// 最大正加速度
+			double minusAcceleration = 0.0;//最大负加速度
+			double maxAcceleration_rate = 0.0;// 最大正加速度变化率
+			double minusAcceleration_rate = 0.0;// 最大负加速度变化率
+			double temp1 = 0.0;
+			double temp2 = 0.0;
+			double temp3 = 0.0;
 			if (!files[i].isEmpty()) {
 				try{
 					FileInputStream in = (FileInputStream) files[i].getInputStream();
@@ -98,11 +107,41 @@ public class TrainServiceImpl implements TrainService {
 						if((sheet.getRow(j+1).getCell(0)+"").equals("")){
 							break;
 						}
+						//EBI触发次数
+						EBInum = row.getCell(9).getNumericCellValue() > row.getCell(3).getNumericCellValue()?(EBInum+1):EBInum;
+						// 最大加速度计算
+						double MaxAcceleration_temp = row.getCell(10) == null ? 0 : row.getCell(10).getNumericCellValue();
+						maxAcceleration = MaxAcceleration_temp > maxAcceleration ? MaxAcceleration_temp : maxAcceleration;
+						minusAcceleration = MaxAcceleration_temp < minusAcceleration ? MaxAcceleration_temp : minusAcceleration;
+						// 最大加速度变化率
+						if(j == 11){
+							temp1 = MaxAcceleration_temp;
+						}
+						if(j == 12){
+							temp2 = MaxAcceleration_temp;
+						}
+						if(j > 12 && j <= lastRowNum-1){
+							BigDecimal b1 = new BigDecimal(Double.toString(temp1));
+							BigDecimal b2 = new BigDecimal(Double.toString(temp2));
+							BigDecimal b3 = new BigDecimal(Double.toString(MaxAcceleration_temp));
+							b1.add(b2).doubleValue();
+							temp3 = ((b3.subtract(b2)).subtract(b2.subtract(b1)).multiply(new BigDecimal(5))).doubleValue();//变化率
+							//交换
+							temp1 = temp2;
+							temp2 = MaxAcceleration_temp;
+							maxAcceleration_rate = temp3 > maxAcceleration_rate ? temp3 : maxAcceleration_rate;
+							minusAcceleration_rate = temp3 < minusAcceleration_rate ? temp3 : minusAcceleration_rate;
+						}
 					}
 					this.saveTrainDatas(trainDataList);
 					//保存文件信息
 					Train train = new Train();
 					train.setFileName(file_name);
+					train.setEbiNum(EBInum);
+					train.setMaxAcceleration(maxAcceleration);
+					train.setMinusAcceleration(minusAcceleration);
+					train.setMaxaccelerationRate(maxAcceleration_rate);
+					train.setMinusaccelerationRate(minusAcceleration_rate);
 					this.saveTrain(train);
 				}catch(Exception e){
 					e.printStackTrace();

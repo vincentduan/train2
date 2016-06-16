@@ -59,7 +59,7 @@ $(function(){
 		    }] */
 		    series:[]
 	  });
-	    chart2 = new Highcharts.Chart({
+	    /* chart2 = new Highcharts.Chart({
 	        chart: {
 	          renderTo: 'chart2'
 	        },
@@ -97,7 +97,7 @@ $(function(){
 	  	        name: 'slope',
 	  	        data: []
 	  	    }]
-	    });
+	    }); */
 	  //下拉框
 		$.ajax({
 			type:"POST",
@@ -178,7 +178,7 @@ $(function () {
 				<h3 id="section-1">以时间为依据</h3>
 				<div id="chart" style="min-width: 700px; height: 400px"></div>
 				<hr>
-				<!-- <h3 id="section-2">以距离为依据</h3>
+<!-- 				<h3 id="section-2">以距离为依据</h3>
 				<div id="chart2" style="min-width: 700px; height: 400px"></div>
 				<hr> -->
 				<h3 id="section-3">统计</h3>
