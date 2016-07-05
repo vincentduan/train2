@@ -30,7 +30,7 @@ public interface TrainMapper {
     int updateByPrimaryKeySelective(Train record);
 
     int updateByPrimaryKey(Train record);
-
+    
 	@Select("TRUNCATE TABLE train")
     void deleteAll();
 }

@@ -1153,6 +1153,286 @@ public class TrainExample {
             addCriterion("info not between", value1, value2, "info");
             return (Criteria) this;
         }
+
+        public Criteria andField1IsNull() {
+            addCriterion("field1 is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andField1IsNotNull() {
+            addCriterion("field1 is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andField1EqualTo(String value) {
+            addCriterion("field1 =", value, "field1");
+            return (Criteria) this;
+        }
+
+        public Criteria andField1NotEqualTo(String value) {
+            addCriterion("field1 <>", value, "field1");
+            return (Criteria) this;
+        }
+
+        public Criteria andField1GreaterThan(String value) {
+            addCriterion("field1 >", value, "field1");
+            return (Criteria) this;
+        }
+
+        public Criteria andField1GreaterThanOrEqualTo(String value) {
+            addCriterion("field1 >=", value, "field1");
+            return (Criteria) this;
+        }
+
+        public Criteria andField1LessThan(String value) {
+            addCriterion("field1 <", value, "field1");
+            return (Criteria) this;
+        }
+
+        public Criteria andField1LessThanOrEqualTo(String value) {
+            addCriterion("field1 <=", value, "field1");
+            return (Criteria) this;
+        }
+
+        public Criteria andField1Like(String value) {
+            addCriterion("field1 like", value, "field1");
+            return (Criteria) this;
+        }
+
+        public Criteria andField1NotLike(String value) {
+            addCriterion("field1 not like", value, "field1");
+            return (Criteria) this;
+        }
+
+        public Criteria andField1In(List<String> values) {
+            addCriterion("field1 in", values, "field1");
+            return (Criteria) this;
+        }
+
+        public Criteria andField1NotIn(List<String> values) {
+            addCriterion("field1 not in", values, "field1");
+            return (Criteria) this;
+        }
+
+        public Criteria andField1Between(String value1, String value2) {
+            addCriterion("field1 between", value1, value2, "field1");
+            return (Criteria) this;
+        }
+
+        public Criteria andField1NotBetween(String value1, String value2) {
+            addCriterion("field1 not between", value1, value2, "field1");
+            return (Criteria) this;
+        }
+
+        public Criteria andField2IsNull() {
+            addCriterion("field2 is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andField2IsNotNull() {
+            addCriterion("field2 is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andField2EqualTo(String value) {
+            addCriterion("field2 =", value, "field2");
+            return (Criteria) this;
+        }
+
+        public Criteria andField2NotEqualTo(String value) {
+            addCriterion("field2 <>", value, "field2");
+            return (Criteria) this;
+        }
+
+        public Criteria andField2GreaterThan(String value) {
+            addCriterion("field2 >", value, "field2");
+            return (Criteria) this;
+        }
+
+        public Criteria andField2GreaterThanOrEqualTo(String value) {
+            addCriterion("field2 >=", value, "field2");
+            return (Criteria) this;
+        }
+
+        public Criteria andField2LessThan(String value) {
+            addCriterion("field2 <", value, "field2");
+            return (Criteria) this;
+        }
+
+        public Criteria andField2LessThanOrEqualTo(String value) {
+            addCriterion("field2 <=", value, "field2");
+            return (Criteria) this;
+        }
+
+        public Criteria andField2Like(String value) {
+            addCriterion("field2 like", value, "field2");
+            return (Criteria) this;
+        }
+
+        public Criteria andField2NotLike(String value) {
+            addCriterion("field2 not like", value, "field2");
+            return (Criteria) this;
+        }
+
+        public Criteria andField2In(List<String> values) {
+            addCriterion("field2 in", values, "field2");
+            return (Criteria) this;
+        }
+
+        public Criteria andField2NotIn(List<String> values) {
+            addCriterion("field2 not in", values, "field2");
+            return (Criteria) this;
+        }
+
+        public Criteria andField2Between(String value1, String value2) {
+            addCriterion("field2 between", value1, value2, "field2");
+            return (Criteria) this;
+        }
+
+        public Criteria andField2NotBetween(String value1, String value2) {
+            addCriterion("field2 not between", value1, value2, "field2");
+            return (Criteria) this;
+        }
+
+        public Criteria andField3IsNull() {
+            addCriterion("field3 is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andField3IsNotNull() {
+            addCriterion("field3 is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andField3EqualTo(String value) {
+            addCriterion("field3 =", value, "field3");
+            return (Criteria) this;
+        }
+
+        public Criteria andField3NotEqualTo(String value) {
+            addCriterion("field3 <>", value, "field3");
+            return (Criteria) this;
+        }
+
+        public Criteria andField3GreaterThan(String value) {
+            addCriterion("field3 >", value, "field3");
+            return (Criteria) this;
+        }
+
+        public Criteria andField3GreaterThanOrEqualTo(String value) {
+            addCriterion("field3 >=", value, "field3");
+            return (Criteria) this;
+        }
+
+        public Criteria andField3LessThan(String value) {
+            addCriterion("field3 <", value, "field3");
+            return (Criteria) this;
+        }
+
+        public Criteria andField3LessThanOrEqualTo(String value) {
+            addCriterion("field3 <=", value, "field3");
+            return (Criteria) this;
+        }
+
+        public Criteria andField3Like(String value) {
+            addCriterion("field3 like", value, "field3");
+            return (Criteria) this;
+        }
+
+        public Criteria andField3NotLike(String value) {
+            addCriterion("field3 not like", value, "field3");
+            return (Criteria) this;
+        }
+
+        public Criteria andField3In(List<String> values) {
+            addCriterion("field3 in", values, "field3");
+            return (Criteria) this;
+        }
+
+        public Criteria andField3NotIn(List<String> values) {
+            addCriterion("field3 not in", values, "field3");
+            return (Criteria) this;
+        }
+
+        public Criteria andField3Between(String value1, String value2) {
+            addCriterion("field3 between", value1, value2, "field3");
+            return (Criteria) this;
+        }
+
+        public Criteria andField3NotBetween(String value1, String value2) {
+            addCriterion("field3 not between", value1, value2, "field3");
+            return (Criteria) this;
+        }
+
+        public Criteria andField4IsNull() {
+            addCriterion("field4 is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andField4IsNotNull() {
+            addCriterion("field4 is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andField4EqualTo(String value) {
+            addCriterion("field4 =", value, "field4");
+            return (Criteria) this;
+        }
+
+        public Criteria andField4NotEqualTo(String value) {
+            addCriterion("field4 <>", value, "field4");
+            return (Criteria) this;
+        }
+
+        public Criteria andField4GreaterThan(String value) {
+            addCriterion("field4 >", value, "field4");
+            return (Criteria) this;
+        }
+
+        public Criteria andField4GreaterThanOrEqualTo(String value) {
+            addCriterion("field4 >=", value, "field4");
+            return (Criteria) this;
+        }
+
+        public Criteria andField4LessThan(String value) {
+            addCriterion("field4 <", value, "field4");
+            return (Criteria) this;
+        }
+
+        public Criteria andField4LessThanOrEqualTo(String value) {
+            addCriterion("field4 <=", value, "field4");
+            return (Criteria) this;
+        }
+
+        public Criteria andField4Like(String value) {
+            addCriterion("field4 like", value, "field4");
+            return (Criteria) this;
+        }
+
+        public Criteria andField4NotLike(String value) {
+            addCriterion("field4 not like", value, "field4");
+            return (Criteria) this;
+        }
+
+        public Criteria andField4In(List<String> values) {
+            addCriterion("field4 in", values, "field4");
+            return (Criteria) this;
+        }
+
+        public Criteria andField4NotIn(List<String> values) {
+            addCriterion("field4 not in", values, "field4");
+            return (Criteria) this;
+        }
+
+        public Criteria andField4Between(String value1, String value2) {
+            addCriterion("field4 between", value1, value2, "field4");
+            return (Criteria) this;
+        }
+
+        public Criteria andField4NotBetween(String value1, String value2) {
+            addCriterion("field4 not between", value1, value2, "field4");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

@@ -23,4 +23,7 @@ public interface TrainService {
 
 	public Train findTrainByFileName(String fileName);
 
+	public EnergySection setEnergySectionField(String filename,
+			String start, String end);
+
 }

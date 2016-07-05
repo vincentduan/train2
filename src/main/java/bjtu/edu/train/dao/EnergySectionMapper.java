@@ -1,12 +1,12 @@
 package bjtu.edu.train.dao;
 
+import bjtu.edu.train.model.EnergySection;
+import bjtu.edu.train.model.EnergySectionExample;
+
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-
-import bjtu.edu.train.model.EnergySection;
-import bjtu.edu.train.model.EnergySectionExample;
 
 public interface EnergySectionMapper {
     int countByExample(EnergySectionExample example);
@@ -30,9 +30,8 @@ public interface EnergySectionMapper {
     int updateByPrimaryKeySelective(EnergySection record);
 
     int updateByPrimaryKey(EnergySection record);
-    
-    void addEnergyRecordBatch(List<EnergySection> energySections);
-    
-    @Select("TRUNCATE TABLE energysection")
-    void deleteAll();
+	void addEnergyRecordBatch(List<EnergySection> energySections);
+
+	@Select("TRUNCATE TABLE energysection")
+	void deleteAll();
 }

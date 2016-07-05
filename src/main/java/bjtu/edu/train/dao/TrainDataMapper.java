@@ -30,9 +30,9 @@ public interface TrainDataMapper {
     int updateByPrimaryKeySelective(TrainData record);
 
     int updateByPrimaryKey(TrainData record);
-
-	void addTrainRecordBatch(List<TrainData> trainDataList);
-	
-	@Select("TRUNCATE TABLE train_data")
+    
+    void addTrainRecordBatch(List<TrainData> trainDataList);
+    
+    @Select("TRUNCATE TABLE train_data")
     void deleteAll();
 }

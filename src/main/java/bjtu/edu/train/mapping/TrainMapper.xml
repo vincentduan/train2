@@ -18,6 +18,10 @@
     <result column="station_Precision" property="stationPrecision" jdbcType="DOUBLE" />
     <result column="EBI_Num" property="ebiNum" jdbcType="INTEGER" />
     <result column="info" property="info" jdbcType="VARCHAR" />
+    <result column="field1" property="field1" jdbcType="VARCHAR" />
+    <result column="field2" property="field2" jdbcType="VARCHAR" />
+    <result column="field3" property="field3" jdbcType="VARCHAR" />
+    <result column="field4" property="field4" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -80,7 +84,8 @@
   <sql id="Base_Column_List" >
     id, start_Station, end_Station, start_Time, actual_Length, end_Time, runing_Time, 
     load_Factor, file_Name, max_Acceleration, minus_Acceleration, maxAcceleration_Rate, 
-    minusAcceleration_Rate, station_Precision, EBI_Num, info
+    minusAcceleration_Rate, station_Precision, EBI_Num, info, field1, field2, field3, 
+    field4
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="bjtu.edu.train.model.TrainExample" >
     select
@@ -119,13 +124,17 @@
       runing_Time, load_Factor, file_Name, 
       max_Acceleration, minus_Acceleration, maxAcceleration_Rate, 
       minusAcceleration_Rate, station_Precision, 
-      EBI_Num, info)
+      EBI_Num, info, field1, 
+      field2, field3, field4
+      )
     values (#{id,jdbcType=INTEGER}, #{startStation,jdbcType=VARCHAR}, #{endStation,jdbcType=VARCHAR}, 
       #{startTime,jdbcType=VARCHAR}, #{actualLength,jdbcType=VARCHAR}, #{endTime,jdbcType=VARCHAR}, 
       #{runingTime,jdbcType=VARCHAR}, #{loadFactor,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, 
       #{maxAcceleration,jdbcType=DOUBLE}, #{minusAcceleration,jdbcType=DOUBLE}, #{maxaccelerationRate,jdbcType=DOUBLE}, 
       #{minusaccelerationRate,jdbcType=DOUBLE}, #{stationPrecision,jdbcType=DOUBLE}, 
-      #{ebiNum,jdbcType=INTEGER}, #{info,jdbcType=VARCHAR})
+      #{ebiNum,jdbcType=INTEGER}, #{info,jdbcType=VARCHAR}, #{field1,jdbcType=VARCHAR}, 
+      #{field2,jdbcType=VARCHAR}, #{field3,jdbcType=VARCHAR}, #{field4,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="bjtu.edu.train.model.Train" >
     insert into train
@@ -178,6 +187,18 @@
       <if test="info != null" >
         info,
       </if>
+      <if test="field1 != null" >
+        field1,
+      </if>
+      <if test="field2 != null" >
+        field2,
+      </if>
+      <if test="field3 != null" >
+        field3,
+      </if>
+      <if test="field4 != null" >
+        field4,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -227,6 +248,18 @@
       </if>
       <if test="info != null" >
         #{info,jdbcType=VARCHAR},
+      </if>
+      <if test="field1 != null" >
+        #{field1,jdbcType=VARCHAR},
+      </if>
+      <if test="field2 != null" >
+        #{field2,jdbcType=VARCHAR},
+      </if>
+      <if test="field3 != null" >
+        #{field3,jdbcType=VARCHAR},
+      </if>
+      <if test="field4 != null" >
+        #{field4,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -287,6 +320,18 @@
       <if test="record.info != null" >
         info = #{record.info,jdbcType=VARCHAR},
       </if>
+      <if test="record.field1 != null" >
+        field1 = #{record.field1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.field2 != null" >
+        field2 = #{record.field2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.field3 != null" >
+        field3 = #{record.field3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.field4 != null" >
+        field4 = #{record.field4,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -309,7 +354,11 @@
       minusAcceleration_Rate = #{record.minusaccelerationRate,jdbcType=DOUBLE},
       station_Precision = #{record.stationPrecision,jdbcType=DOUBLE},
       EBI_Num = #{record.ebiNum,jdbcType=INTEGER},
-      info = #{record.info,jdbcType=VARCHAR}
+      info = #{record.info,jdbcType=VARCHAR},
+      field1 = #{record.field1,jdbcType=VARCHAR},
+      field2 = #{record.field2,jdbcType=VARCHAR},
+      field3 = #{record.field3,jdbcType=VARCHAR},
+      field4 = #{record.field4,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -362,6 +411,18 @@
       <if test="info != null" >
         info = #{info,jdbcType=VARCHAR},
       </if>
+      <if test="field1 != null" >
+        field1 = #{field1,jdbcType=VARCHAR},
+      </if>
+      <if test="field2 != null" >
+        field2 = #{field2,jdbcType=VARCHAR},
+      </if>
+      <if test="field3 != null" >
+        field3 = #{field3,jdbcType=VARCHAR},
+      </if>
+      <if test="field4 != null" >
+        field4 = #{field4,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -381,7 +442,11 @@
       minusAcceleration_Rate = #{minusaccelerationRate,jdbcType=DOUBLE},
       station_Precision = #{stationPrecision,jdbcType=DOUBLE},
       EBI_Num = #{ebiNum,jdbcType=INTEGER},
-      info = #{info,jdbcType=VARCHAR}
+      info = #{info,jdbcType=VARCHAR},
+      field1 = #{field1,jdbcType=VARCHAR},
+      field2 = #{field2,jdbcType=VARCHAR},
+      field3 = #{field3,jdbcType=VARCHAR},
+      field4 = #{field4,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -7,6 +7,16 @@
     <result column="end" property="end" jdbcType="VARCHAR" />
     <result column="energe" property="energe" jdbcType="DOUBLE" />
     <result column="info" property="info" jdbcType="VARCHAR" />
+    <result column="runtime" property="runtime" jdbcType="VARCHAR" />
+    <result column="maxAcceleration" property="maxacceleration" jdbcType="DOUBLE" />
+    <result column="minusAcceleration" property="minusacceleration" jdbcType="DOUBLE" />
+    <result column="maxAcceleration_rate" property="maxaccelerationRate" jdbcType="DOUBLE" />
+    <result column="minusAcceleration_rate" property="minusaccelerationRate" jdbcType="DOUBLE" />
+    <result column="EBI" property="ebi" jdbcType="INTEGER" />
+    <result column="field1" property="field1" jdbcType="VARCHAR" />
+    <result column="field2" property="field2" jdbcType="VARCHAR" />
+    <result column="field3" property="field3" jdbcType="VARCHAR" />
+    <result column="field4" property="field4" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -67,8 +77,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, start, end, energe, info
+    id, start, end, energe, info, runtime, maxAcceleration, minusAcceleration, maxAcceleration_rate, 
+    minusAcceleration_rate, EBI, field1, field2, field3, field4
   </sql>
+    <!-- ********************************* -->
   <insert id="addEnergyRecordBatch" parameterType="java.util.List">
         <selectKey resultType="java.lang.Integer" order="BEFORE" keyProperty="id">
         SELECT LAST_INSERT_ID() AS id
@@ -78,7 +90,8 @@
       <foreach collection="list" item="item" index="index" separator="," >
       (#{item.start},#{item.end},#{item.energe},#{item.info})
       </foreach>
-  </insert> 
+  </insert>
+  <!-- ********************************* -->
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="bjtu.edu.train.model.EnergySectionExample" >
     select
     <if test="distinct" >
@@ -112,9 +125,17 @@
   </delete>
   <insert id="insert" parameterType="bjtu.edu.train.model.EnergySection" >
     insert into energysection (id, start, end, 
-      energe, info)
+      energe, info, runtime, 
+      maxAcceleration, minusAcceleration, maxAcceleration_rate, 
+      minusAcceleration_rate, EBI, field1, 
+      field2, field3, field4
+      )
     values (#{id,jdbcType=INTEGER}, #{start,jdbcType=VARCHAR}, #{end,jdbcType=VARCHAR}, 
-      #{energe,jdbcType=DOUBLE}, #{info,jdbcType=VARCHAR})
+      #{energe,jdbcType=DOUBLE}, #{info,jdbcType=VARCHAR}, #{runtime,jdbcType=VARCHAR}, 
+      #{maxacceleration,jdbcType=DOUBLE}, #{minusacceleration,jdbcType=DOUBLE}, #{maxaccelerationRate,jdbcType=DOUBLE}, 
+      #{minusaccelerationRate,jdbcType=DOUBLE}, #{ebi,jdbcType=INTEGER}, #{field1,jdbcType=VARCHAR}, 
+      #{field2,jdbcType=VARCHAR}, #{field3,jdbcType=VARCHAR}, #{field4,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="bjtu.edu.train.model.EnergySection" >
     insert into energysection
@@ -134,6 +155,36 @@
       <if test="info != null" >
         info,
       </if>
+      <if test="runtime != null" >
+        runtime,
+      </if>
+      <if test="maxacceleration != null" >
+        maxAcceleration,
+      </if>
+      <if test="minusacceleration != null" >
+        minusAcceleration,
+      </if>
+      <if test="maxaccelerationRate != null" >
+        maxAcceleration_rate,
+      </if>
+      <if test="minusaccelerationRate != null" >
+        minusAcceleration_rate,
+      </if>
+      <if test="ebi != null" >
+        EBI,
+      </if>
+      <if test="field1 != null" >
+        field1,
+      </if>
+      <if test="field2 != null" >
+        field2,
+      </if>
+      <if test="field3 != null" >
+        field3,
+      </if>
+      <if test="field4 != null" >
+        field4,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -150,6 +201,36 @@
       </if>
       <if test="info != null" >
         #{info,jdbcType=VARCHAR},
+      </if>
+      <if test="runtime != null" >
+        #{runtime,jdbcType=VARCHAR},
+      </if>
+      <if test="maxacceleration != null" >
+        #{maxacceleration,jdbcType=DOUBLE},
+      </if>
+      <if test="minusacceleration != null" >
+        #{minusacceleration,jdbcType=DOUBLE},
+      </if>
+      <if test="maxaccelerationRate != null" >
+        #{maxaccelerationRate,jdbcType=DOUBLE},
+      </if>
+      <if test="minusaccelerationRate != null" >
+        #{minusaccelerationRate,jdbcType=DOUBLE},
+      </if>
+      <if test="ebi != null" >
+        #{ebi,jdbcType=INTEGER},
+      </if>
+      <if test="field1 != null" >
+        #{field1,jdbcType=VARCHAR},
+      </if>
+      <if test="field2 != null" >
+        #{field2,jdbcType=VARCHAR},
+      </if>
+      <if test="field3 != null" >
+        #{field3,jdbcType=VARCHAR},
+      </if>
+      <if test="field4 != null" >
+        #{field4,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -177,6 +258,36 @@
       <if test="record.info != null" >
         info = #{record.info,jdbcType=VARCHAR},
       </if>
+      <if test="record.runtime != null" >
+        runtime = #{record.runtime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.maxacceleration != null" >
+        maxAcceleration = #{record.maxacceleration,jdbcType=DOUBLE},
+      </if>
+      <if test="record.minusacceleration != null" >
+        minusAcceleration = #{record.minusacceleration,jdbcType=DOUBLE},
+      </if>
+      <if test="record.maxaccelerationRate != null" >
+        maxAcceleration_rate = #{record.maxaccelerationRate,jdbcType=DOUBLE},
+      </if>
+      <if test="record.minusaccelerationRate != null" >
+        minusAcceleration_rate = #{record.minusaccelerationRate,jdbcType=DOUBLE},
+      </if>
+      <if test="record.ebi != null" >
+        EBI = #{record.ebi,jdbcType=INTEGER},
+      </if>
+      <if test="record.field1 != null" >
+        field1 = #{record.field1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.field2 != null" >
+        field2 = #{record.field2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.field3 != null" >
+        field3 = #{record.field3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.field4 != null" >
+        field4 = #{record.field4,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -188,7 +299,17 @@
       start = #{record.start,jdbcType=VARCHAR},
       end = #{record.end,jdbcType=VARCHAR},
       energe = #{record.energe,jdbcType=DOUBLE},
-      info = #{record.info,jdbcType=VARCHAR}
+      info = #{record.info,jdbcType=VARCHAR},
+      runtime = #{record.runtime,jdbcType=VARCHAR},
+      maxAcceleration = #{record.maxacceleration,jdbcType=DOUBLE},
+      minusAcceleration = #{record.minusacceleration,jdbcType=DOUBLE},
+      maxAcceleration_rate = #{record.maxaccelerationRate,jdbcType=DOUBLE},
+      minusAcceleration_rate = #{record.minusaccelerationRate,jdbcType=DOUBLE},
+      EBI = #{record.ebi,jdbcType=INTEGER},
+      field1 = #{record.field1,jdbcType=VARCHAR},
+      field2 = #{record.field2,jdbcType=VARCHAR},
+      field3 = #{record.field3,jdbcType=VARCHAR},
+      field4 = #{record.field4,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -208,6 +329,36 @@
       <if test="info != null" >
         info = #{info,jdbcType=VARCHAR},
       </if>
+      <if test="runtime != null" >
+        runtime = #{runtime,jdbcType=VARCHAR},
+      </if>
+      <if test="maxacceleration != null" >
+        maxAcceleration = #{maxacceleration,jdbcType=DOUBLE},
+      </if>
+      <if test="minusacceleration != null" >
+        minusAcceleration = #{minusacceleration,jdbcType=DOUBLE},
+      </if>
+      <if test="maxaccelerationRate != null" >
+        maxAcceleration_rate = #{maxaccelerationRate,jdbcType=DOUBLE},
+      </if>
+      <if test="minusaccelerationRate != null" >
+        minusAcceleration_rate = #{minusaccelerationRate,jdbcType=DOUBLE},
+      </if>
+      <if test="ebi != null" >
+        EBI = #{ebi,jdbcType=INTEGER},
+      </if>
+      <if test="field1 != null" >
+        field1 = #{field1,jdbcType=VARCHAR},
+      </if>
+      <if test="field2 != null" >
+        field2 = #{field2,jdbcType=VARCHAR},
+      </if>
+      <if test="field3 != null" >
+        field3 = #{field3,jdbcType=VARCHAR},
+      </if>
+      <if test="field4 != null" >
+        field4 = #{field4,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -216,7 +367,17 @@
     set start = #{start,jdbcType=VARCHAR},
       end = #{end,jdbcType=VARCHAR},
       energe = #{energe,jdbcType=DOUBLE},
-      info = #{info,jdbcType=VARCHAR}
+      info = #{info,jdbcType=VARCHAR},
+      runtime = #{runtime,jdbcType=VARCHAR},
+      maxAcceleration = #{maxacceleration,jdbcType=DOUBLE},
+      minusAcceleration = #{minusacceleration,jdbcType=DOUBLE},
+      maxAcceleration_rate = #{maxaccelerationRate,jdbcType=DOUBLE},
+      minusAcceleration_rate = #{minusaccelerationRate,jdbcType=DOUBLE},
+      EBI = #{ebi,jdbcType=INTEGER},
+      field1 = #{field1,jdbcType=VARCHAR},
+      field2 = #{field2,jdbcType=VARCHAR},
+      field3 = #{field3,jdbcType=VARCHAR},
+      field4 = #{field4,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -11,6 +11,12 @@
     <result column="traction" property="traction" jdbcType="DOUBLE" />
     <result column="power" property="power" jdbcType="DOUBLE" />
     <result column="info" property="info" jdbcType="VARCHAR" />
+    <result column="runtime" property="runtime" jdbcType="VARCHAR" />
+    <result column="EBI" property="ebi" jdbcType="DOUBLE" />
+    <result column="field1" property="field1" jdbcType="VARCHAR" />
+    <result column="field2" property="field2" jdbcType="VARCHAR" />
+    <result column="field3" property="field3" jdbcType="VARCHAR" />
+    <result column="field4" property="field4" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -70,21 +76,22 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Base_Column_List" >
-    id, file_Name, start_Station, end_Station, speed, slope, traction, power, info
-  </sql>
-  <!-- ************************************** -->
+    <!-- ************************************** -->
   <insert id="addTrainRecordBatch" parameterType="java.util.List">
         <selectKey resultType="java.lang.Integer" order="BEFORE" keyProperty="id">
         SELECT LAST_INSERT_ID() AS id
         </selectKey>
-      insert into train_data(file_Name,start_Station,end_Station,speed,slope,traction,power,info) 
+      insert into train_data(file_Name,start_Station,end_Station,speed,slope,traction,power,info,EBI,runtime,field1) 
       values 
       <foreach collection="list" item="item" index="index" separator="," >
-      (#{item.fileName},#{item.startStation},#{item.endStation},#{item.speed},#{item.slope},#{item.traction},#{item.power},#{item.info})
+      (#{item.fileName},#{item.startStation},#{item.endStation},#{item.speed},#{item.slope},#{item.traction},#{item.power},#{item.info},#{item.ebi},#{item.runtime},#{item.field1})
       </foreach>
   </insert> 
    <!-- ************************************** -->
+  <sql id="Base_Column_List" >
+    id, file_Name, start_Station, end_Station, speed, slope, traction, power, info, runtime, 
+    EBI, field1, field2, field3, field4
+  </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="bjtu.edu.train.model.TrainDataExample" >
     select
     <if test="distinct" >
@@ -119,11 +126,15 @@
   <insert id="insert" parameterType="bjtu.edu.train.model.TrainData" >
     insert into train_data (id, file_Name, start_Station, 
       end_Station, speed, slope, 
-      traction, power, info
+      traction, power, info, 
+      runtime, EBI, field1, 
+      field2, field3, field4
       )
     values (#{id,jdbcType=INTEGER}, #{fileName,jdbcType=VARCHAR}, #{startStation,jdbcType=VARCHAR}, 
       #{endStation,jdbcType=VARCHAR}, #{speed,jdbcType=DOUBLE}, #{slope,jdbcType=DOUBLE}, 
-      #{traction,jdbcType=DOUBLE}, #{power,jdbcType=DOUBLE}, #{info,jdbcType=VARCHAR}
+      #{traction,jdbcType=DOUBLE}, #{power,jdbcType=DOUBLE}, #{info,jdbcType=VARCHAR}, 
+      #{runtime,jdbcType=VARCHAR}, #{ebi,jdbcType=DOUBLE}, #{field1,jdbcType=VARCHAR}, 
+      #{field2,jdbcType=VARCHAR}, #{field3,jdbcType=VARCHAR}, #{field4,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="bjtu.edu.train.model.TrainData" >
@@ -156,6 +167,24 @@
       <if test="info != null" >
         info,
       </if>
+      <if test="runtime != null" >
+        runtime,
+      </if>
+      <if test="ebi != null" >
+        EBI,
+      </if>
+      <if test="field1 != null" >
+        field1,
+      </if>
+      <if test="field2 != null" >
+        field2,
+      </if>
+      <if test="field3 != null" >
+        field3,
+      </if>
+      <if test="field4 != null" >
+        field4,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -184,6 +213,24 @@
       </if>
       <if test="info != null" >
         #{info,jdbcType=VARCHAR},
+      </if>
+      <if test="runtime != null" >
+        #{runtime,jdbcType=VARCHAR},
+      </if>
+      <if test="ebi != null" >
+        #{ebi,jdbcType=DOUBLE},
+      </if>
+      <if test="field1 != null" >
+        #{field1,jdbcType=VARCHAR},
+      </if>
+      <if test="field2 != null" >
+        #{field2,jdbcType=VARCHAR},
+      </if>
+      <if test="field3 != null" >
+        #{field3,jdbcType=VARCHAR},
+      </if>
+      <if test="field4 != null" >
+        #{field4,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -223,6 +270,24 @@
       <if test="record.info != null" >
         info = #{record.info,jdbcType=VARCHAR},
       </if>
+      <if test="record.runtime != null" >
+        runtime = #{record.runtime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ebi != null" >
+        EBI = #{record.ebi,jdbcType=DOUBLE},
+      </if>
+      <if test="record.field1 != null" >
+        field1 = #{record.field1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.field2 != null" >
+        field2 = #{record.field2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.field3 != null" >
+        field3 = #{record.field3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.field4 != null" >
+        field4 = #{record.field4,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -238,7 +303,13 @@
       slope = #{record.slope,jdbcType=DOUBLE},
       traction = #{record.traction,jdbcType=DOUBLE},
       power = #{record.power,jdbcType=DOUBLE},
-      info = #{record.info,jdbcType=VARCHAR}
+      info = #{record.info,jdbcType=VARCHAR},
+      runtime = #{record.runtime,jdbcType=VARCHAR},
+      EBI = #{record.ebi,jdbcType=DOUBLE},
+      field1 = #{record.field1,jdbcType=VARCHAR},
+      field2 = #{record.field2,jdbcType=VARCHAR},
+      field3 = #{record.field3,jdbcType=VARCHAR},
+      field4 = #{record.field4,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -270,6 +341,24 @@
       <if test="info != null" >
         info = #{info,jdbcType=VARCHAR},
       </if>
+      <if test="runtime != null" >
+        runtime = #{runtime,jdbcType=VARCHAR},
+      </if>
+      <if test="ebi != null" >
+        EBI = #{ebi,jdbcType=DOUBLE},
+      </if>
+      <if test="field1 != null" >
+        field1 = #{field1,jdbcType=VARCHAR},
+      </if>
+      <if test="field2 != null" >
+        field2 = #{field2,jdbcType=VARCHAR},
+      </if>
+      <if test="field3 != null" >
+        field3 = #{field3,jdbcType=VARCHAR},
+      </if>
+      <if test="field4 != null" >
+        field4 = #{field4,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -282,7 +371,13 @@
       slope = #{slope,jdbcType=DOUBLE},
       traction = #{traction,jdbcType=DOUBLE},
       power = #{power,jdbcType=DOUBLE},
-      info = #{info,jdbcType=VARCHAR}
+      info = #{info,jdbcType=VARCHAR},
+      runtime = #{runtime,jdbcType=VARCHAR},
+      EBI = #{ebi,jdbcType=DOUBLE},
+      field1 = #{field1,jdbcType=VARCHAR},
+      field2 = #{field2,jdbcType=VARCHAR},
+      field3 = #{field3,jdbcType=VARCHAR},
+      field4 = #{field4,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

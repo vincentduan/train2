@@ -127,7 +127,6 @@ $(function(){
 								var name_temp = value.name;
 								var temp2 = value.vodata;
 								var temp3 = value.slope;
-								console.debug(chart3.get(name_temp))
 								if(chart3.get(name_temp+"-speed")!=null){
 									chart3.get(name_temp+"-speed").remove();
 								}
@@ -154,7 +153,18 @@ $(function(){
 			});
 });
 $(function () {
-    
+	$.ajax({
+		type:"POST",
+		url:"<%=basePath%>index/getEnergySectionField",
+		dataType: "json",
+		success : function(data) {
+			$.each(data, function(n, value) {
+				$("#dataItem").append("<div style='height:50px'><div class='col-md-3'>"+value.info+"</div>"+"<div class='col-md-4'>"+"<"+value.start+","+value.end+">"+"</div>"+"<div class='col-md-1'>"+value.runtime+"</div>"+
+						"<div class='col-md-1'>"+value.maxacceleration+","+value.minusacceleration+"</div>"+"<div class='col-md-1'>"+value.maxaccelerationRate+","+value.minusaccelerationRate+"</div>"+
+						"<div class='col-md-1'>(<+-0.3)</div>"+"<div class='col-md-1'>"+value.ebi+"</div></div>");
+			});
+		}
+		});
 });
 
 </script>
@@ -168,8 +178,8 @@ $(function () {
 			<div class="col-md-2">
 				<ul class="nav nav-pills nav-stacked">
 					<li class="active"><a href="<%=basePath%>/index/upload">列车能耗评估系统</a></li>
-					<li><a href="<%=basePath%>index/contrast">列车对比</a></li>
-					<li><a href="#">****系统</a></li>
+<%-- 					<li><a href="<%=basePath%>index/contrast">列车对比</a></li>
+					<li><a href="#">****系统</a></li> --%>
 				</ul>
 			</div>
 			<div class="col-md-10">
@@ -194,27 +204,34 @@ $(function () {
 				<br>
 				<div class="row"
 					style="border-bottom: 1px solid #CCC; padding-bottom: 10px;">
-					<div class="col-md-2">
+					<div class="col-md-3">
 						<strong>文件名称</strong>
 					</div>
-					<div class="col-md-2">
+					<div class="col-md-4">
+						<strong>站间</strong>
+					</div>
+					<div class="col-md-1">
 						<strong>实际运行时间(s)</strong>
 					</div>
-					<div class="col-md-2">
+					<div class="col-md-1">
 						<strong>最大加速度(m/s<sup>2</sup>)
 						</strong>
 					</div>
-					<div class="col-md-2">
+					<div class="col-md-1">
 						<strong>最大加速度变化率(m/ts<sup>2</sup>)
 						</strong>
 					</div>
-					<div class="col-md-2">
+					<div class="col-md-1">
 						<strong>停车精度(m)(<+-0.3)</strong>
 					</div>
-					<div class="col-md-2">
+					<div class="col-md-1">
 						<strong>EBI速度限制触发次数</strong>
 					</div>
 				</div>
+				<div class="row" id="dataItem"
+						style="border-bottom: 1px solid #CCC; padding-bottom: 10px;">
+						
+					</div>
 				<c:forEach items="${trains}" var="train" varStatus="status">
 					<div class="row"
 						style="border-bottom: 1px solid #CCC; padding-bottom: 10px;">

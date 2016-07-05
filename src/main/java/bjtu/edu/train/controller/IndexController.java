@@ -74,7 +74,7 @@ public class IndexController {
 		return list;
 	}
 	
-	//得到所有站间(contrast)
+	//得到所有站间对比(contrast)
 	@RequestMapping(value = "/contrastEnergySections", method = RequestMethod.POST)
 	@ResponseBody
 	public List<EnergySectionVo> contrastEnergySection(HttpSession httpSession) {
@@ -147,6 +147,23 @@ public class IndexController {
 		trainDataVo2.setSlope2(slope2);
 		l.add(trainDataVo2);
 		return l;
+	}
+	//得到所有站间数据项
+	@RequestMapping(value = "/getEnergySectionField", method = RequestMethod.POST)
+	@ResponseBody
+	public List<EnergySection> getEnergySectionField(){
+		List<EnergySection> energySections = trainService.getEnergySections();
+		List<EnergySection> energySections2 = new LinkedList<>();
+		for(EnergySection energySection : energySections){
+			String filename = energySection.getInfo();
+			String start = energySection.getStart();
+			String end = energySection.getEnd();
+			if(energySection.getRuntime()==null||"".equals(energySection.getRuntime())){
+				EnergySection energySections_temp = trainService.setEnergySectionField(filename,start,end);
+				energySections2.add(energySections_temp);
+			}
+		}
+		return energySections2;
 	}
 
 }
