@@ -152,6 +152,7 @@
 		</dependency>
 	</dependencies>
 	<build>
+		<finalName>train</finalName>
 		<pluginManagement>
 			<plugins>
 				<plugin>
